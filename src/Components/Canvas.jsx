@@ -42,6 +42,7 @@ export default function Canvas() {
     const [tempIdValMap, setValMap] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const parentRef = useRef(null);
+    const {documentId} = useParams()
 
     // Success popup state
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -57,7 +58,7 @@ export default function Canvas() {
       const [pdfUrl, setPdfUrl] = useState(null);
      const [loading, setLoading] = useState(true);
 
-     const {documentId} = useParams()
+   
 
 
      useEffect(() => {
@@ -95,8 +96,7 @@ export default function Canvas() {
     }
   }, [pdfUrl]);
 
-  if (loading) return <p>Loading...</p>;
-  if (!pdfUrl) return <p>PDF not found or invalid document ID.</p>;
+ 
 
 
 
@@ -400,6 +400,10 @@ const handleSaveSigner = async () => {
         const blob = new Blob([modifiedPdf], { type: 'application/pdf' });
         saveAs(blob, 'modified.pdf');
     };
+
+
+     if (loading) return <p>Loading...</p>;
+     if (!pdfUrl) return <p>PDF not found or invalid document ID.</p>;
 
     return (
         <div className="flex h-screen bg-gradient-to-br from-rose-50 to-pink-50">
