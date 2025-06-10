@@ -23,7 +23,7 @@ export function Draggable({ initX,  initY ,onPositionChange, children, parentRef
   const [isEditing, setIsEditing] = useState(true);
   const dispatch = useDispatch()
 
-  const signers = useSelector(state=>state.document.document.signers)
+  const signers = useSelector(state=>state.document?.document?.signers)
 
 
   const [selectedSigner, setSelectersigner] = useState('pinu@example.com')
