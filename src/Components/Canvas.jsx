@@ -68,13 +68,15 @@ export default function Canvas() {
 
         if (!response.ok) throw new Error(data.error || 'Failed to fetch document');
 
-         console.log(data)
-        console.log(data?.fileUrl)
-        setPdfUrl(data?.fileUrl);
-        console.log(pdfUrl)
-      
+        console.log('✅ fileUrl from API:', data?.fileUrl);
+
+        if (data?.fileUrl) {
+          setPdfUrl(data.fileUrl);
+        } else {
+          throw new Error('fileUrl not found in response');
+        }
       } catch (err) {
-        console.error('Error fetching PDF URL:', err);
+        console.error('❌ Error fetching PDF URL:', err);
       } finally {
         setLoading(false);
       }
@@ -86,6 +88,12 @@ export default function Canvas() {
       setLoading(false);
     }
   }, [documentId]);
+
+  useEffect(() => {
+    if (pdfUrl) {
+      console.log('✅ Updated PDF URL in state:', pdfUrl);
+    }
+  }, [pdfUrl]);
 
   if (loading) return <p>Loading...</p>;
   if (!pdfUrl) return <p>PDF not found or invalid document ID.</p>;
