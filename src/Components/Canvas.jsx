@@ -71,6 +71,7 @@ export default function Canvas() {
          console.log(data)
         console.log(data?.fileUrl)
         setPdfUrl(data?.fileUrl);
+        console.log(pdfUrl)
       
       } catch (err) {
         console.error('Error fetching PDF URL:', err);
