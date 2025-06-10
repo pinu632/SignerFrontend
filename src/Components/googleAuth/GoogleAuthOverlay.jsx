@@ -8,7 +8,7 @@ const GoogleSignInOverlay = ({onClose}) => {
   const handleGoogleSignIn = () => {
     setIsLoading(true);
     // Simulate Google sign-in process
-    window.location.href = 'http://localhost:5000/api/auth/google';
+    window.location.href = 'https://signerbackendrepo.onrender.com/api/auth/google';
     setTimeout(() => {
       setIsLoading(false);
       setIsVisible(false);
