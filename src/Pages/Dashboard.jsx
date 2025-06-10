@@ -22,7 +22,7 @@ import { authContext } from '../context/authContext';
 import { useEffect } from 'react';
 import { fetchAssignedDocuments, getAllDocuments, getDocumentsWithFields } from '../services/DocumentServices';
 import { persistor } from '../redux/store';
-import { getDocumentWithFields } from '../../../backend/controller/Document.controller';
+
 import { useDispatch } from 'react-redux';
 import { addField, setDocument } from '../redux/slices/DocumentSlice';
 import axios from 'axios';
