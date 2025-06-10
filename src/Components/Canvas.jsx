@@ -24,6 +24,7 @@ import {
     X
 } from "lucide-react";
 import { SaveFieldsMetaData } from '../services/sendFieldstoSave';
+import baseUrl from '../../config';
 
 
 // PDF page size in points (A4)
@@ -51,6 +52,40 @@ export default function Canvas() {
     const [signatureVal, setSignatureVal] = useState(null)
     const [editTextElementId, setEditTextElementId] = useState(null)
     const [signatureEditMode, setSignatureEditMode] = useState('draw');
+
+
+      const [pdfUrl, setPdfUrl] = useState(null);
+     const [loading, setLoading] = useState(true);
+
+     const {documentId} = useParams()
+
+
+     useEffect(() => {
+    const fetchPdfUrl = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/document/getUrl/:id?id=${documentId}`);
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.error || 'Failed to fetch document');
+
+        setPdfUrl(data.fileUrl);
+      } catch (err) {
+        console.error('Error fetching PDF URL:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (documentId) {
+      fetchPdfUrl();
+    } else {
+      setLoading(false);
+    }
+  }, [documentId]);
+
+  if (loading) return <p>Loading...</p>;
+  if (!pdfUrl) return <p>PDF not found or invalid document ID.</p>;
+
 
 
     const { action } = useParams()
@@ -531,7 +566,7 @@ const handleSaveSigner = async () => {
                     }}
                 >
                     <PdfViewer
-                        url={DocUrl}
+                        url={pdfUrl}
                         style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
                         onScaleChange={setPdfScale}
                     />
