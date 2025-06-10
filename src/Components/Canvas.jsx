@@ -69,6 +69,7 @@ export default function Canvas() {
         if (!response.ok) throw new Error(data.error || 'Failed to fetch document');
 
         setPdfUrl(data.fileUrl);
+        console.log(pdfUrl)
       } catch (err) {
         console.error('Error fetching PDF URL:', err);
       } finally {
