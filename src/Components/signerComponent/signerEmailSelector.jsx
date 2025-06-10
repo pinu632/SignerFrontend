@@ -30,7 +30,7 @@ export default function SignerDropdown({ signers, id, onSelect }) {
                 className="text-[10px] h-[16px] w-[60px] border border-gray-300 rounded-sm px-1 bg-gray-700 focus:outline-none"
             >
                 <option value="">--</option>
-                {signers.map((signer, index) => (
+                {signers?.map((signer, index) => (
                     <option key={index} value={signer.email}>
                         {signer.email}
                     </option>

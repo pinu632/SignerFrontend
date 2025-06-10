@@ -174,7 +174,7 @@ const DocumentUpload = () => {
           </div>
           
           <div className="space-y-4">
-            {signers.map((signer, index) => (
+            {signers?.map((signer, index) => (
               <div key={index} className="flex space-x-4">
                 <input
                   type="text"
