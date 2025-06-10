@@ -8,10 +8,10 @@ export default function PdfViewer({ url, style, onScaleChange }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!url) return;
+    // if (!url) return;
 
     const renderPDF = async () => {
-      const loadingTask = getDocument(url);
+      const loadingTask =  getDocument(url);
       const pdf = await loadingTask.promise;
 
       const page = await pdf.getPage(1);
