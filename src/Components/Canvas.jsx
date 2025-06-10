@@ -61,7 +61,7 @@ export default function Canvas() {
    
 
     const DocId = useSelector(state => state.document?.document?._id)
-    const DocUrl = useSelector(state => state.document.document.fileUrl)
+    const DocUrl = useSelector(state => state.document?.document?.fileUrl)
     const fields = useSelector(state => state.document.fields)
 
     // Mock these for the demo - replace with your actual selectors
