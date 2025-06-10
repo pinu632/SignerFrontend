@@ -207,7 +207,7 @@ export function Draggable({ initX,  initY ,onPositionChange, children, parentRef
                }}
                className="absolute  top-[-22px] left-[-6px] text-white cursor-pointer bg-gray-700 p-1 rounded-2xl"
             >
-                <SignerDropdown signers={signers} onSelect={setSelectersigner} id={id}/>
+              {signers &&  <SignerDropdown signers={signers} onSelect={setSelectersigner} id={id}/> }
             </div>
         }
 
