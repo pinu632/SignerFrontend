@@ -68,8 +68,10 @@ export default function Canvas() {
 
         if (!response.ok) throw new Error(data.error || 'Failed to fetch document');
 
-        setPdfUrl(data.fileUrl);
-        console.log(pdfUrl)
+         console.log(data)
+        console.log(data?.fileUrl)
+        setPdfUrl(data?.fileUrl);
+      
       } catch (err) {
         console.error('Error fetching PDF URL:', err);
       } finally {
