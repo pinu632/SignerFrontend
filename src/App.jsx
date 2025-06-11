@@ -21,7 +21,7 @@ function App() {
                   <Route path='/' element={<Dashboard/>}/>
                   <Route path='/upload' element={<DocumentUpload/>} />
                   <Route path='/:action/:documentId/:email' element={<Canvas/>} />
-                      <Route path="/prepare/:documentId/:email" element={<PrepareRedirect />} />
+                     
            </Routes>
     
       
