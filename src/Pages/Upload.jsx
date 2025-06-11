@@ -91,6 +91,8 @@ const DocumentUpload = () => {
 
        setDocumentName('')
        
+    }else if(res.status === 400){
+      alert(res.data.message + "please log in first")
     }
 
     console.log(res.data.data)
