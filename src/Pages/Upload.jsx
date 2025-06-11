@@ -13,16 +13,16 @@ const DocumentUpload = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [signers, setSigners] = useState([{ email: '', name: '' }]);
   const [copyTo, setCopyTo] = useState([{ email: '', name: '' }]);
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
 
-  const {user} = authContext()
- const dispatch = useDispatch()
+  const { user } = authContext()
+  const dispatch = useDispatch()
 
 
 
-  
+
   const handleFileUpload = (file) => {
     setUploadedFile(file);
     if (!documentName) {
@@ -41,7 +41,7 @@ const DocumentUpload = () => {
   };
 
   const updateSigner = (index, field, value) => {
-    const updated = signers.map((signer, i) => 
+    const updated = signers.map((signer, i) =>
       i === index ? { ...signer, [field]: value } : signer
     );
     setSigners(updated);
@@ -56,48 +56,50 @@ const DocumentUpload = () => {
   };
 
   const updateCopyRecipient = (index, field, value) => {
-    const updated = copyTo.map((recipient, i) => 
+    const updated = copyTo.map((recipient, i) =>
       i === index ? { ...recipient, [field]: value } : recipient
     );
     setCopyTo(updated);
   };
 
 
-  const handleUpload = async ()=>{
+  const handleUpload = async () => {
+    try {
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append('documentName', documentName);
+      formData.append('signers', JSON.stringify(signers));
+      formData.append('file', uploadedFile);
 
-    setIsLoading(true)
+      const res = await axios.post(`${baseUrl}/file/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
 
-    const formData = new FormData()
-    formData.append('documentName',documentName)
-    formData.append('signers',JSON.stringify(signers))
-    formData.append('file',uploadedFile) 
+      if (res.status === 201) {
+        setIsLoading(false);
+        dispatch(setDocument(res.data.data));
+        navigate(`/uploaded/${res.data.data._id}/${user.email}`);
+        dispatch(clearDocument());
+        setDocumentName('');
+      }
 
+      console.log(res.data.data);
+      console.log(res?.data?.message);
 
-    const res = await axios.post(`${baseUrl}/file/upload`,formData,{
-       headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    withCredentials: true,
-    })
-
-
-
-    if(res.status === 201){
-       setIsLoading(false)
-       dispatch(setDocument(res.data.data))
-       navigate(`/uploaded/${res.data.data._id}/${user.email}`)
-       
-       dispatch(clearDocument())
-
-       setDocumentName('')
-       
-    }else if(res.status === 400){
-      alert(res?.data?.message + "please log in first")
+    } catch (err) {
+      setIsLoading(false);
+      if (err.response?.status === 400) {
+        alert(err.response.data?.message + " Please log in first.");
+      } else {
+        alert("Something went wrong during upload.");
+        console.error(err);
+      }
     }
+  };
 
-    console.log(res.data.data)
-    console.log(res?.data?.message)
-  }
 
   return (
     <div className="min-h-screen bg-rose-50">
@@ -105,11 +107,11 @@ const DocumentUpload = () => {
       <div className="bg-white border-b border-rose-200 px-6 py-4">
         <div className="flex items-center space-x-4">
           <button className="p-2 hover:bg-rose-50 rounded-lg">
-            <ChevronLeft 
-             onClick={()=>{
+            <ChevronLeft
+              onClick={() => {
                 navigate(-1)
-             }}
-            className="h-5 w-5 text-gray-600" />
+              }}
+              className="h-5 w-5 text-gray-600" />
           </button>
           <h1 className="text-2xl font-bold text-gray-900">Upload Document</h1>
         </div>
@@ -175,7 +177,7 @@ const DocumentUpload = () => {
               <span>Add</span>
             </button>
           </div>
-          
+
           <div className="space-y-4">
             {signers?.map((signer, index) => (
               <div key={index} className="flex space-x-4">
@@ -218,7 +220,7 @@ const DocumentUpload = () => {
               <span>Add</span>
             </button>
           </div>
-          
+
           <div className="space-y-4">
             {copyTo.map((recipient, index) => (
               <div key={index} className="flex space-x-4">
@@ -249,10 +251,10 @@ const DocumentUpload = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <button 
+          <button
             onClick={handleUpload}
-          className="px-8 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-lg">
-            {isLoading?<LoaderCircle />:"Upload"}
+            className="px-8 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-lg">
+            {isLoading ? <LoaderCircle /> : "Upload"}
           </button>
         </div>
       </div>
